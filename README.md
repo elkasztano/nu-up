@@ -24,6 +24,16 @@ Nushell update helper script
     * the above described warning may occur twice during the installation
     * restart nu if necessary
 
+## Usage
+
+### clone repository and navigate to it
+
+`git clone "https://github.com/elkasztano/nu-up" && cd nu-up`
+
+### run script
+
+`nu up.nu`
+
 ## Notes
 
 * the above mentioned target directories may be easily changed in the script itself
