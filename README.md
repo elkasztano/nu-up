@@ -18,11 +18,7 @@ Nushell update helper script
 ### On Windows
 
 * downloads latest release (.msi file) to the user's Download folder
-* simply launches the Windows msi installer
-    * _important note:_ Nushell is running during the installation, so you will probably get a 'Files in Use' warning
-    * check 'Do not close applications.', click `OK` button
-    * the above described warning may occur twice during the installation
-    * restart nu if necessary
+* starts the msi installer from within Powershell to avoid sharing violation
 
 ## Usage
 
