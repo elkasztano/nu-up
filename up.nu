@@ -17,10 +17,14 @@ def main [] {
   )
 
 # exit with 0 if current version is the latest version
+# exit with error code if unable to retrieve latest version number
 
   if $currentvers == $vers {
     print "You are up to date!"
     exit 0
+  } else if $vers == null {
+    log critical "unable to retrieve latest version number - exiting"
+    exit 1
   } else {
     print $"Version '($vers)' available!"
   }
