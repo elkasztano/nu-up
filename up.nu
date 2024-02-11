@@ -159,10 +159,12 @@ def install [ tar_path, system_os ] {
 
   } else if ($system_os starts-with "Windows") {
 
-    # simply start installation of msi package
+    # start installation of msi package
+    # let Powershell initialize the installation - avoid sharing violations
+ 
     print $tar_path
-    run-external $"($env.SystemRoot)\\System32\\msiexec.exe" "/i" $tar_path
-  
+    ^pwsh -Command $"msiexec /i ($tar_path)"
+
   }
 
 }
