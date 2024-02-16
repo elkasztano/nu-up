@@ -30,8 +30,20 @@ Nushell update helper script
 
 `nu up.nu`
 
+### Optional: use environment variables
+
+`nu up.nu --tryenv`
+
+* with the 'tryenv' flag set the script makes use of various environment variables in order to gather information about the current directory layout
+* a warning will be shown and the user will be prompted to confirm if the script is about to modifiy anything outside `$HOME` (except `$nu.temp-path`)
+* the archive is downloaded to `$nu.temp-path`
+* the precompiled binary is extracted in the parent directory of `$nu.current-exe`
+    * if that directory starts with 'nu-', then the directory above will be used
+* the symlink is created in the parent directory of `$env._`
+
 ## Notes
 
+* please check the compatibility of your config files first before upgrading to a newer version of Nushell
 * the above mentioned target directories may be easily changed in the script itself
 * the directory where the symlink is created should be in your PATH
 * update from Nushell version 0.89.0 to 0.90.1 was tested on Debian 12 (x86_64), Windows 11 (x86_64) and Raspberry Pi OS Bookworm (aarch64)

@@ -4,7 +4,7 @@
 
 use std [log]
 
-def main [] {
+def main [ --tryenv (-e) ] {
 
 # get number of currently installed version
 
@@ -43,7 +43,7 @@ def main [] {
 
   let dl_file = $"nu-($vers)-($tar_file)"
 
-  let dl_path = ( get_dlpath $dl_file $system_os )
+  let dl_path = ( get_dlpath $dl_file $system_os $tryenv )
 
   let fullurl = $"https://github.com/nushell/nushell/releases/download/($vers)/($dl_file)"
 
@@ -60,7 +60,7 @@ def main [] {
 
   }
 
-  install $dl_path $system_os
+  install $dl_path $system_os $tryenv
 
 }
 
@@ -94,14 +94,22 @@ def select_installer [ build_target ] {
 
 # get download path / check if download directory exists
 
-def get_dlpath [ out_file, system_os ] {
+def get_dlpath [ out_file, system_os, tryenv ] {
    
   if ($system_os starts-with "Linux") {
 
-    # change download directory here
-    let dldir = $"($env.HOME)/Downloads"
-    
-    chkdir $dldir
+    let dldir = if $tryenv {
+
+      $nu.temp-path
+
+    } else {
+
+      # change download directory here
+      $"($env.HOME)/Downloads"
+
+    }
+
+    if not $tryenv { chkdir $dldir }
 
     $"($dldir)/($out_file)"
   
@@ -126,15 +134,46 @@ def get_dlpath [ out_file, system_os ] {
 
 # OS dependent installation procedure
 
-def install [ tar_path, system_os ] {
+def install [ tar_path, system_os, tryenv ] {
 
   if ($system_os starts-with "Linux") {
 
-    let softwaredir = $"($env.HOME)/Software" # tar extraction directory
-    chkdir $softwaredir
+    let softwaredir = if $tryenv {
+ 
+      $nu.current-exe | str replace --regex "(/nu-.+)?/nu$" ""
+    
+    } else {
+      
+      $"($env.HOME)/Software" # tar extraction directory
+    
+    }
 
-    let binary_dir = $"($env.HOME)/bin" # should be PATH
-    chkdir $binary_dir
+    if not $tryenv { chkdir $softwaredir } else { chkhome $softwaredir $env.HOME }
+
+    let binary_dir = if $tryenv {
+      
+      $env._ | str replace --regex '/nu$' ''
+         
+    } else {
+
+      $"($env.HOME)/bin" # should be PATH
+
+    }
+
+    if $tryenv {
+
+      chkhome $binary_dir $env.HOME
+
+      if not ( $env.PATH | any { |it| $it == $binary_dir } ) {
+        log critical $"'($binary_dir)' not PATH - exiting"
+        exit 1
+      }
+    
+    } else {
+
+      chkdir $binary_dir
+
+    }
 
     # get name of extracted directory
     let dir = $tar_path | str replace --regex '.+/' "" | str replace --regex '\.tar\.gz' ""
@@ -232,6 +271,26 @@ def chkdir [ full_path ] {
     
     }
   
+  }
+
+}
+
+# check if directory is a subdirectory (of e.g. $HOME)
+
+def chkhome [ full_path, home_path ] {
+  
+  if not ( $full_path starts-with $home_path ) {
+    
+    log warning $"'($full_path)' not in '($home_path)'"
+    
+    mut answer = ([ "Yes", "No" ]
+      | input list $"Contents of '($full_path)' are about to be modified. Continue?")
+
+    if $answer == "No" {
+      log critical "update interrupted by user"
+      exit 1
+    }
+
   }
 
 }
