@@ -14,6 +14,9 @@ Nushell update helper script
 * extracts its content to `$HOME/Software`
 * creates a symlink of the 'nu' binary in `$HOME/bin`
 * if one of the above listed directories does not exist, the user will be prompted to create it
+* a very basic config file compatibility check is made
+    * if the config file check fails the user must confirm first in order to proceed with the installation
+* with the `--tryenv` flag set, the script will try to collect information from environment variables (see below)
 
 ### On Windows
 
