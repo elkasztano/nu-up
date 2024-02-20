@@ -188,6 +188,9 @@ def install [ tar_path, system_os, tryenv ] {
       ^tar -xvzf $tar_path -C $softwaredir
     }
 
+    # check config file compatibility with newer nushell version
+    check_config $symlinkdir
+    
     if not ( $binary_dir | path exists) {
       log critical $"directory '($binary_dir)' not found - exiting"
       exit 1
@@ -291,6 +294,38 @@ def chkhome [ full_path, home_path ] {
       exit 1
     }
 
+  }
+
+}
+
+# rudimentary config file compatibility check
+
+def check_config [ new_nushell_path ] {
+
+  let errors = ((do { ^$"($new_nushell_path)" -e 'exit' } | complete).stderr)
+
+  if ( $errors | is-empty ) {
+    
+    log info "config files seem to be compatible with new Nushell version"
+  
+  } else {
+    
+    log warning "rudimentary config file compatibility check failed"
+    print $"errors:\n~~~\n($errors)\n~~~\n"
+    
+    mut answer = ([ "Yes", "No" ]
+      | input list "Continue anyway?")
+    
+    if $answer == "No" {
+      
+      log critical "update interrupted by user"
+      exit 1
+    
+    } else {
+      log warning "continuing installation - please check your config files"
+    
+    }
+  
   }
 
 }
