@@ -50,4 +50,5 @@ Nushell update helper script
 * the above mentioned target directories may be easily changed in the script itself
 * the directory where the symlink is created should be in your PATH
 * update from Nushell version 0.89.0 to 0.90.1 was tested on Debian 12 (x86_64), Windows 11 (x86_64) and Raspberry Pi OS Bookworm (aarch64)
+* update to version 0.94.2 was tested on Debian 12
 * use at your own risk

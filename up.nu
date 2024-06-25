@@ -72,15 +72,15 @@ def select_installer [ build_target ] {
 
   if $build_target == "x86_64-unknown-linux-gnu" {
     
-    "x86_64-linux-gnu-full.tar.gz"
+    "x86_64-unknown-linux-gnu.tar.gz"
 
   } else if $build_target == "aarch64-unknown-linux-gnu" {
     
-    "aarch64-linux-gnu-full.tar.gz"
+    "aarch64-unknown-linux-gnu.tar.gz"
 
   } else if $build_target == "x86_64-pc-windows-msvc" {
 
-    "x86_64-windows-msvc-full.msi"
+    "x86_64-pc-windows-msvc.msi"
 
   } else {
 
