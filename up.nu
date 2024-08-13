@@ -31,7 +31,7 @@ def main [ --tryenv (-e) ] {
 
 # retrieve system os and check for dependencies
 
-  let system_os = (sys).host.long_os_version
+  let system_os = (sys host).long_os_version
 
   check_dependencies $system_os
 
