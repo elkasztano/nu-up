@@ -82,6 +82,10 @@ def select_installer [ build_target ] {
 
     "x86_64-pc-windows-msvc.msi"
 
+  } else if $build_target == "riscv64gc-unknown-linux-gnu" {
+
+    "riscv64gc-unknown-linux-gnu.tar.gz"
+
   } else {
 
     log critical $"build target '($build_target)' currently unsupported - exiting"
