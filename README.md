@@ -49,6 +49,5 @@ Nushell update helper script
 * please check the compatibility of your config files first before upgrading to a newer version of Nushell
 * the above mentioned target directories may be easily changed in the script itself
 * the directory where the symlink is created should be in your PATH
-* update from Nushell version 0.89.0 to 0.90.1 was tested on Debian 12 (x86_64), Windows 11 (x86_64) and Raspberry Pi OS Bookworm (aarch64)
-* update to version 0.96.1 was tested on Debian 12 (x86_64) and Bianbu Linux 1.0.7 (RISC-V)
+* Update to Nushell version 0.104.0 was tested on Debian 12 (x86_64), Windows 11 as well as Raspberry Pi OS and Ubuntu 24.04 (both aarch64)
 * use at your own risk
