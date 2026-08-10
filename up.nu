@@ -2,7 +2,7 @@
 
 # import log module from the standard library - comes in handy for notifications
 
-use std [log]
+use std/log
 
 def main [ --tryenv (-e) ] {
 
@@ -104,7 +104,7 @@ def get_dlpath [ out_file, system_os, tryenv ] {
 
     let dldir = if $tryenv {
 
-      $nu.temp-path
+      $nu.temp-dir
 
     } else {
 
